@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="tipo_monedas">
+        <item>US DOLAR</item>
+        <item>YEN</item>
+        <item>LIBRA</item>
+        <item>FRANCO SUIZO</item>
+        <item>DOLAR AUSTRALIANO</item>
+        <item>DOLAR CANADIENSE</item>
+        <item>CORONA SUECA</item>
+        <item>PESO ARGENTINO</item>
+        <item>PESO COLOMBIANO</item>
+        <item>PESO CUBANO</item>
+        <item>CORONA DANESA</item>
+        <item>RUPIA INDIA</item>
+        <item>YUAN CHINO</item>
+        <item>PESO MEXICANO</item>
+    </string-array>
+</resources>
