@@ -117,5 +117,17 @@
             android:layout_centerHorizontal="true"
             android:text="Presiona el botón de arriba para invertir el proceso" />
 
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="109dp"
+            android:layout_height="59dp"
+            android:layout_alignBottom="@+id/tvCurrencyTo"
+            android:layout_marginStart="-8dp"
+            android:layout_marginBottom="-7dp"
+            android:layout_toEndOf="@+id/btnConvert"
+            android:onClick="goToDivisasActivity"
+            android:text="Tipos de cambio" />
+
+
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

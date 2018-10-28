@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Conversor de Divisas</string>
+    <string name="title_activity_divisas">DivisasActivity</string>
 </resources>

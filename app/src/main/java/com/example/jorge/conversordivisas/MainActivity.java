@@ -3,6 +3,7 @@ package com.example.jorge.conversordivisas;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import com.example.jorge.conversordivisas.conversor.constants.ConversorConstants;
 import com.example.jorge.conversordivisas.conversor.impl.Conversor;
+import com.example.jorge.conversordivisas.services.ConversorService;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvResultado;
     private Conversor conversor;
     private Context context;
+    private ConversorService conversorService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
 
         // cargamos el contexto
         this.context = this;
+
+        // obtenemos instancia del servicio conversor
+        this.conversorService = ConversorService.getInstance();
     }
 
     public void onBtnConvertirClick(View view) {
@@ -155,5 +161,12 @@ public class MainActivity extends AppCompatActivity {
 
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
+    }
+
+    public void goToDivisasActivity(View view) {
+        Intent intent = new Intent(context, DivisasActivity.class);
+
+        intent.putExtra("divisas", conversorService.getDivisasFijas());
+        startActivity(intent);
     }
 }
