@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/background_light">
+
+    <TextView
+        android:id="@+id/tvNombreDivisa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:paddingTop="5dp"
+        android:text="TextView"
+        android:textAlignment="textStart"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvValorDivisa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvNombreDivisa"
+        android:layout_marginStart="16dp"
+        android:text="TextView"
+
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="18sp"
+        android:textStyle="italic" />
+
+    <EditText
+        android:id="@+id/etValorDivisa"
+        android:layout_width="84dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="263dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="2dp"
+        android:inputType="numberDecimal" />
+
+    <TextView
+        android:id="@+id/tvEditarValor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tvNombreDivisa"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="125dp"
+        android:layout_marginBottom="-11dp"
+        android:text="Editar"
+        android:textSize="12sp" />
+
+</RelativeLayout>

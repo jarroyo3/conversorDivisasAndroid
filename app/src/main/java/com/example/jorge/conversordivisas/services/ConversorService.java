@@ -2,8 +2,12 @@ package com.example.jorge.conversordivisas.services;
 
 import com.example.jorge.conversordivisas.conversor.constants.ConversorConstants;
 import com.example.jorge.conversordivisas.conversor.impl.Conversor;
+import com.example.jorge.conversordivisas.widget.divisa.Divisa;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ConversorService {
 
@@ -40,5 +44,22 @@ public class ConversorService {
         divisasFijas.put(ConversorConstants.PESO_MEXICANO, ConversorConstants.TIPO_CAMBIO_MEX_DOLAR);
 
         return  divisasFijas;
+    }
+
+    public ArrayList<Divisa> getDivisaList() {
+        ArrayList<Divisa> listaDivisas = new ArrayList<Divisa>();
+
+        for (Map.Entry<String, Float> registroDivisa : getDivisasFijas().entrySet()) {
+            String key = registroDivisa.getKey();
+            Object value = registroDivisa.getValue();
+
+            Divisa divisa = new Divisa();
+            divisa.setNombreDivisa(key);
+            divisa.setValorDivisa((Float)value);
+            listaDivisas.add(divisa);
+        }
+
+
+        return listaDivisas;
     }
 }

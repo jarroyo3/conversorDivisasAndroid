@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
     public void goToDivisasActivity(View view) {
         Intent intent = new Intent(context, DivisasActivity.class);
 
-        intent.putExtra("divisas", conversorService.getDivisasFijas());
+        //intent.putExtra("listaDivisas", conversorService.getDivisaList());
         startActivity(intent);
     }
 }

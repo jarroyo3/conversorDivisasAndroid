@@ -8,11 +8,10 @@
     tools:context=".DivisasActivity"
     tools:showIn="@layout/activity_divisas">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="206dp"
-        android:layout_height="93dp"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="70dp"
-        tools:layout_editor_absoluteY="156dp" />
+    <ListView
+        android:id="@+id/lvDivisas"
+        android:layout_width="368dp"
+        android:layout_height="495dp"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp" />
 </android.support.constraint.ConstraintLayout>
