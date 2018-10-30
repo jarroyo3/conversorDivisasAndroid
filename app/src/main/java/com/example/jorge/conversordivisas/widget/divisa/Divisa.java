@@ -1,6 +1,8 @@
 package com.example.jorge.conversordivisas.widget.divisa;
 
-public class Divisa {
+import java.io.Serializable;
+
+public class Divisa implements Serializable {
     private String nombreDivisa;
     private Float valorDivisa;
     private String divisaId;

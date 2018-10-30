@@ -2,6 +2,8 @@ package com.example.jorge.conversordivisas.conversor.impl;
 
 import com.example.jorge.conversordivisas.conversor.ConversorModel;
 
+import java.io.Serializable;
+
 public class Conversor extends ConversorModel {
 
     protected Float tipoCambio;

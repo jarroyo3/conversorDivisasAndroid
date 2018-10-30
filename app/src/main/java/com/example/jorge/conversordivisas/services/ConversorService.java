@@ -14,8 +14,12 @@ public class ConversorService {
     private static ConversorService conversorService;
 
     private Conversor conversor;
+    private HashMap<String, Float> mapaDivisas;
 
-    private ConversorService() {}
+    private ConversorService() {
+        super();
+        this.mapaDivisas = new HashMap<String, Float>();
+    }
 
     public static ConversorService getInstance() {
         if (null == conversorService) {
@@ -46,10 +50,10 @@ public class ConversorService {
         return  divisasFijas;
     }
 
-    public ArrayList<Divisa> getDivisaList() {
+    public ArrayList<Divisa> loadDivisas() {
         ArrayList<Divisa> listaDivisas = new ArrayList<Divisa>();
 
-        for (Map.Entry<String, Float> registroDivisa : getDivisasFijas().entrySet()) {
+        for (Map.Entry<String, Float> registroDivisa : getMapaDivisas().entrySet()) {
             String key = registroDivisa.getKey();
             Object value = registroDivisa.getValue();
 
@@ -61,5 +65,13 @@ public class ConversorService {
 
 
         return listaDivisas;
+    }
+
+    public void setMapaDivisas(HashMap<String, Float> mapaDivisas) {
+        this.mapaDivisas = mapaDivisas;
+    }
+
+    public HashMap<String, Float> getMapaDivisas() {
+        return this.mapaDivisas;
     }
 }

@@ -1,9 +1,11 @@
 package com.example.jorge.conversordivisas;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,12 +14,25 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.jorge.conversordivisas.conversor.constants.ConversorConstants;
 import com.example.jorge.conversordivisas.conversor.impl.Conversor;
 import com.example.jorge.conversordivisas.services.ConversorService;
+import com.example.jorge.conversordivisas.services.DivisaInternet;
+import com.example.jorge.conversordivisas.widget.divisa.Divisa;
+
+import org.xml.sax.SAXException;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import javax.xml.parsers.ParserConfigurationException;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String TIEMPO_ESPERA = "5";
 
     private Spinner spinnerCurrencyTo;
     private EditText etCurrency;
@@ -25,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
     private Conversor conversor;
     private Context context;
     private ConversorService conversorService;
+    private DivisaInternet divisaInternet;
+    private ArrayList<Divisa> listaDivisas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +70,12 @@ public class MainActivity extends AppCompatActivity {
 
         // obtenemos instancia del servicio conversor
         this.conversorService = ConversorService.getInstance();
+
+        // obtenemos instancia del servicio xml
+        this.divisaInternet = DivisaInternet.getInstance();
+
+        AsyncTaskRunner runner = new AsyncTaskRunner();
+        runner.execute(TIEMPO_ESPERA);
     }
 
     public void onBtnConvertirClick(View view) {
@@ -165,8 +188,67 @@ public class MainActivity extends AppCompatActivity {
 
     public void goToDivisasActivity(View view) {
         Intent intent = new Intent(context, DivisasActivity.class);
+        intent.putExtra("listaDivisas", this.listaDivisas);
 
-        //intent.putExtra("listaDivisas", conversorService.getDivisaList());
         startActivity(intent);
+    }
+
+    private class AsyncTaskRunner extends AsyncTask<String, String, String> {
+
+        private String resp;
+        ProgressDialog progressDialog;
+
+        @Override
+        protected String doInBackground(String... params) {
+            /**
+             * Tratamos de cargar la lista de divisas en segundo plano.
+             * Si diese un pete, cargaremos la lista de divisa fija, en lugar
+             * de mostrar la descargada desde internet.
+             *
+             * Para probar una sincronización erronea, bastaría, por ejemplo, ir al servicio
+             * DivisaInternet y en la url cambiarle la extensión o desactivar Internet en el movil,
+             * por lo que la descarga fallará.
+            */
+            publishProgress("Sleeping...");
+            resp = "La sincronización se ha realizado con éxito.";
+            try {
+
+                int time = Integer.parseInt(params[0])*1000;
+                Thread.sleep(time);
+                divisaInternet.cargar();
+                HashMap<String, Float> tiposCambio = divisaInternet.getTiposCambio();
+                conversorService.setMapaDivisas(tiposCambio);
+                listaDivisas = conversorService.loadDivisas();
+
+            } catch (InterruptedException|SAXException|IOException|ParserConfigurationException e) {
+                e.printStackTrace();
+                resp = "La sincronización ha fallado. Se mantendrán los tipos de cambio previos.";
+                conversorService.setMapaDivisas(conversorService.getDivisasFijas());
+                listaDivisas = conversorService.loadDivisas();
+            }
+
+            return resp;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            progressDialog.dismiss();
+            Toast.makeText(MainActivity.this, result, Toast.LENGTH_SHORT).show();
+        }
+
+
+        @Override
+        protected void onPreExecute() {
+            progressDialog = ProgressDialog.show(MainActivity.this,
+                    "Descargando",
+                    "Se están descargando los nuevos tipos de cambio, por favor, espera ");
+        }
+
+
+        @Override
+        protected void onProgressUpdate(String... text) {
+
+        }
+
     }
 }

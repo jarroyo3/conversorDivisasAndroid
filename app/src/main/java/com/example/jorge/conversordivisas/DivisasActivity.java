@@ -41,13 +41,13 @@ public class DivisasActivity extends AppCompatActivity {
         });
 
 
-        //Intent i = getIntent();
-        //ArrayList<Divisa> listaDivisas = (ArrayList<Divisa>) i.getExtras().get("listaDivisas");
+        Intent i = getIntent();
+        ArrayList<Divisa> listaDivisas = (ArrayList) i.getExtras().getParcelableArrayList("listaDivisas");
 
         // Cargamos el listView
-                //ArrayList<Divisa> listaDivisas = new ArrayList<Divisa>();
-        ListView lv =(ListView) findViewById(R.id.lvDivisas);
-        AdapterDivisa adapter = new AdapterDivisa(this, conversorService.getDivisaList());
+        // ArrayList<Divisa> listaDivisas = new ArrayList<Divisa>();
+        ListView lv = (ListView) findViewById(R.id.lvDivisas);
+        AdapterDivisa adapter = new AdapterDivisa(this, listaDivisas);
         lv.setAdapter(adapter);
     }
 
