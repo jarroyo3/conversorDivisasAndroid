@@ -6,9 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
@@ -35,14 +34,13 @@ import javax.xml.parsers.ParserConfigurationException;
 public class MainActivity extends AppCompatActivity {
 
 
-    private  static final String LOG_TAG = "MAIN_ACTIVITY";
     private static final String TIEMPO_ESPERA_TASK = "3";
 
     private Spinner spinnerCurrencyTo;
     private EditText etCurrency;
     private TextView tvResultado;
     private Conversor conversor;
-    private  Context context;
+    private Context context;
     private ConversorService conversorService;
     private DivisaInternetService divisaInternetService;
     private ArrayList<Divisa> listaDivisas;
@@ -69,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
         // cargar spinner dinamicamente
         ArrayList<String> spinnerMonedas = new ArrayList<String>();
-        for (Divisa divisa: listaDivisas) {
+        for (Divisa divisa : listaDivisas) {
             spinnerMonedas.add(divisa.getNombreDivisa());
         }
 
@@ -204,18 +202,18 @@ public class MainActivity extends AppCompatActivity {
              * Para probar una sincronización erronea, bastaría, por ejemplo, ir al servicio
              * DivisaInternetService y en la url cambiarle la extensión o desactivar Internet en el movil,
              * por lo que la descarga fallará.
-            */
+             */
             publishProgress("Sleeping...");
             resp = "La sincronización se ha realizado con éxito.";
             try {
 
-                int time = Integer.parseInt(params[0])*1000;
+                int time = Integer.parseInt(params[0]) * 1000;
                 Thread.sleep(time);
-                HashMap<String, Float> tiposCambio  = divisaInternetService.cargar().getTiposCambio();
+                HashMap<String, Float> tiposCambio = divisaInternetService.cargar().getTiposCambio();
                 divisaDAO.guardarMasivo(tiposCambio);
                 conversorService.setMapaDivisas(tiposCambio);
 
-            } catch (InterruptedException|SAXException|IOException|ParserConfigurationException e) {
+            } catch (InterruptedException | SAXException | IOException | ParserConfigurationException e) {
                 e.printStackTrace();
                 resp = "La sincronización ha fallado. Se mantendrán los tipos de cambio previos.";
                 conversorService.setMapaDivisas(conversorService.getDivisasFijas());
