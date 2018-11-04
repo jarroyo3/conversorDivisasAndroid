@@ -2,13 +2,19 @@ package com.example.jorge.conversordivisas.widget.divisa;
 
 import android.app.Activity;
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.jorge.conversordivisas.MainActivity;
 import com.example.jorge.conversordivisas.R;
+import com.example.jorge.conversordivisas.dao.DivisaDAO;
 
 import java.util.ArrayList;
 
@@ -47,12 +53,36 @@ public class AdapterDivisa extends BaseAdapter {
         }
 
         Divisa d =  this.items.get(position);
+        final String moneda = d.getNombreDivisa();
         TextView nombreDivisa = (TextView) v.findViewById(R.id.tvNombreDivisa);
         nombreDivisa.setText(d.getNombreDivisa());
 
         TextView valorDivisa = (TextView) v.findViewById(R.id.tvValorDivisa);
         valorDivisa.setText(d.getValorDivisa().toString());
 
+        final EditText cajaTipoCambio = (EditText) v.findViewById(R.id.etValorDivisa);
+
+        cajaTipoCambio.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String nuevoValor = cajaTipoCambio.getText().toString();
+                if (!"".equals(nuevoValor)) {
+                    Float tipoCambio = new Float(nuevoValor);
+                    DivisaDAO.getInstance().guardar(moneda, tipoCambio);
+                    Toast.makeText(cajaTipoCambio.getContext(), "Tipo de cambio modificado", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         return v;
     }
 

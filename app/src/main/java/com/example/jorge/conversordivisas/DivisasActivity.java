@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -45,10 +46,10 @@ public class DivisasActivity extends AppCompatActivity {
         ArrayList<Divisa> listaDivisas = (ArrayList) i.getExtras().getParcelableArrayList("listaDivisas");
 
         // Cargamos el listView
-        // ArrayList<Divisa> listaDivisas = new ArrayList<Divisa>();
         ListView lv = (ListView) findViewById(R.id.lvDivisas);
         AdapterDivisa adapter = new AdapterDivisa(this, listaDivisas);
         lv.setAdapter(adapter);
+
     }
 
     private void init() {

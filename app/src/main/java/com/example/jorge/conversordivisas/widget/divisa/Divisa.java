@@ -11,6 +11,12 @@ public class Divisa implements Serializable {
         super();
     }
 
+    public Divisa(String nombreDivisa, Float valorDivisa) {
+        super();
+        this.nombreDivisa = nombreDivisa;
+        this.valorDivisa = valorDivisa;
+    }
+
     public Divisa(String divisaId, String nombreDivisa, Float valorDivisa) {
         super();
         this.nombreDivisa = nombreDivisa;

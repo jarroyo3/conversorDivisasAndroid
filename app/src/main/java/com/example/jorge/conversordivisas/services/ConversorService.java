@@ -1,12 +1,14 @@
 package com.example.jorge.conversordivisas.services;
 
+import android.content.Context;
+
 import com.example.jorge.conversordivisas.conversor.constants.ConversorConstants;
 import com.example.jorge.conversordivisas.conversor.impl.Conversor;
+import com.example.jorge.conversordivisas.dao.DivisaDAO;
 import com.example.jorge.conversordivisas.widget.divisa.Divisa;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ConversorService {
@@ -15,6 +17,7 @@ public class ConversorService {
 
     private Conversor conversor;
     private HashMap<String, Float> mapaDivisas;
+    private Context context;
 
     private ConversorService() {
         super();
@@ -35,19 +38,8 @@ public class ConversorService {
         divisasFijas.put(ConversorConstants.US_DOLAR, ConversorConstants.TIPO_CAMBIO_US_DOLAR);
         divisasFijas.put(ConversorConstants.YEN, ConversorConstants.TIPO_CAMBIO_YEN);
         divisasFijas.put(ConversorConstants.LIBRA, ConversorConstants.TIPO_CAMBIO_GB_LIBRA);
-        divisasFijas.put(ConversorConstants.FRANCO_SUIZO, ConversorConstants.TIPO_CAMBIO_FRANCO);
-        divisasFijas.put(ConversorConstants.DOLAR_AUSTRALIANO, ConversorConstants.TIPO_CAMBIO_AUS_DOLAR);
-        divisasFijas.put(ConversorConstants.DOLAR_CANADIENSE, ConversorConstants.TIPO_CAMBIO_CAN_DOLAR);
-        divisasFijas.put(ConversorConstants.CORONA_SUECA, ConversorConstants.TIPO_CAMBIO_CORONA_SUECA);
-        divisasFijas.put(ConversorConstants.PESO_ARGENTINO, ConversorConstants.TIPO_CAMBIO_ARG_PESO);
-        divisasFijas.put(ConversorConstants.PESO_COLOMBIANO, ConversorConstants.TIPO_CAMBIO_COL_PESO);
-        divisasFijas.put(ConversorConstants.PESO_CUBANO, ConversorConstants.TIPO_CAMBIO_CUB_PESO);
-        divisasFijas.put(ConversorConstants.CORONA_DANESA, ConversorConstants.TIPO_CAMBIO_CORONA_DANESA);
-        divisasFijas.put(ConversorConstants.RUPIA_INDIA, ConversorConstants.TIPO_CAMBIO_RUPIA_INDIA);
-        divisasFijas.put(ConversorConstants.YUAN_CHINO, ConversorConstants.TIPO_CAMBIO_YUAN);
-        divisasFijas.put(ConversorConstants.PESO_MEXICANO, ConversorConstants.TIPO_CAMBIO_MEX_DOLAR);
 
-        return  divisasFijas;
+        return divisasFijas;
     }
 
     public ArrayList<Divisa> loadDivisas() {
@@ -55,11 +47,15 @@ public class ConversorService {
 
         for (Map.Entry<String, Float> registroDivisa : getMapaDivisas().entrySet()) {
             String key = registroDivisa.getKey();
-            Object value = registroDivisa.getValue();
-
+            Float value = registroDivisa.getValue();
+            String nuevoValorGuardado = DivisaDAO.getInstance().setContext(context).getTipoCambioPorMoneda(key).toString();
+            if (!"".equals(nuevoValorGuardado)) {
+                value = new Float(nuevoValorGuardado);
+                System.out.println(nuevoValorGuardado);
+            }
             Divisa divisa = new Divisa();
             divisa.setNombreDivisa(key);
-            divisa.setValorDivisa((Float)value);
+            divisa.setValorDivisa((Float) value);
             listaDivisas.add(divisa);
         }
 
@@ -73,5 +69,9 @@ public class ConversorService {
 
     public HashMap<String, Float> getMapaDivisas() {
         return this.mapaDivisas;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
     }
 }
